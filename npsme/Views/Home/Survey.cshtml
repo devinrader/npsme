@@ -1,0 +1,115 @@
+﻿@model npsme.Models.SurveyViewModel
+@{
+    ViewBag.Title = "Survey";
+}
+
+<h2>Survey</h2>
+
+<div>
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(model => model.PhoneNumber)
+        @Html.HiddenFor(model => model.SurveyId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PhoneNumber)
+            <div class="form-inline">
+                @Html.TextBoxFor(model => model.PhoneNumber, new { disabled = "disabled", @class = "form-control" })
+                <input type="text" id="AreaCode" placeholder="area code" size="5" class="form-control" style="width:100px" />
+                <input type="button" value="Search" id="PhoneNumberSearch" class="btn btn-default" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ResponseText)
+            @Html.TextAreaFor(model => model.ResponseText, new { @class = "form-control" })
+        </div>
+        <div class="checkbox">
+            @Html.LabelFor(model => model.IsEnabled)
+            @Html.CheckBoxFor(model => model.IsEnabled)
+        </div>
+        <div>
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    }
+</div>
+
+
+<hr />
+<h3>Survey Responses</h3>
+
+@if (Model.Responses.Count() > 0) {
+    
+    <div class="row">
+        <div class="col-lg-8">Body</div>
+        <div class="col-lg-2">Created At</div>
+        <div class="col-lg-2"></div>
+    </div>
+    
+    foreach (var response in Model.Responses) { 
+        <div class="row">
+            <div class="col-lg-8">
+                <span class="response display" data-responseid="@response.ResponseId">@response.Body</span>
+                <form>
+                    <div class="form-inline">
+                        <input class="form-control response edit" data-responseid="@response.ResponseId" style="display:none" value="@response.Body" />
+                        <input type="button" class="btn btn-default response edit" data-responseid="@response.ResponseId" style="display:none" value="Save" />
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-2">@response.CreatedAt</div>
+            <div class="col-lg-2">
+                <a class="response display" data-responseid="@response.ResponseId" style="cursor:pointer">Edit</a>
+                <a class="response edit" data-responseid="@response.ResponseId" style="display:none;cursor:pointer">Cancel</a>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="col-lg-12">No Survey Responses</div>
+}
+
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            $('#PhoneNumberSearch').click(function () {
+                $.post('/Home/PhoneNumber', { 'areacode': $('#AreaCode').val() }, function (data) {
+                    $('input[type=text]#PhoneNumber').val(data);
+                    $('input[type=hidden]#PhoneNumber').val(data);
+                });
+                return false;
+            });
+
+            $("a.response.display").click(function () {
+                var responseid = $(this).data('responseid');
+
+                $(".response.edit").hide();
+                $(".response.display").show();
+
+                $(".response.edit[data-responseid=" + responseid + "]").toggle();
+                $(".response.display[data-responseid=" + responseid + "]").toggle();
+            });
+
+            $("a.response.edit").click(function () {
+                $(".response.edit").hide();
+                $(".response.display").show();
+            });
+
+            $("input[type=button].response.edit").click(function () {
+                var responseid = $(this).data('responseid');
+                var responsebody = $('input.response.edit[data-responseid=' + responseid + ']').val();
+                $.post("/Home/SurveyResponse", { 'responseid': responseid, 'body': responsebody }, function (data) {
+                    $('span.response.display[data-responseid=' + responseid + ']').text(responsebody);
+                    $(".response.edit").hide();
+                    $(".response.display").show();
+                });
+                return false;
+            });
+        });
+        //function onSuccess(data) {
+        //    console.log(data);
+
+        //    $('#PhoneNumber').val(data);
+        //}
+    </script>
+}

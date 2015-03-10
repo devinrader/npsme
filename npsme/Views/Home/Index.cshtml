@@ -1,0 +1,46 @@
+﻿@model IEnumerable<npsme.Models.Survey>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Surveys</h2>
+
+<div class="row">
+    <div class="col-lg-12" style="background-color: lightgray; padding:5px; border-radius:3px">
+        @Html.ActionLink("Add Survey", "Survey")
+    </div>
+</div>
+    @if (Model.Count() > 0)
+    {
+        <div class="row" style="font-weight: bold; margin-top:10px">
+            <div class="col-lg-3">Phone Number</div>
+            <div class="col-lg-1">Is Active</div>
+            <div class="col-lg-3">Last Updated</div>
+            <div class="col-lg-1">Responses</div>
+            <div class="col-lg-2">NPS</div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-1"></div>
+        </div>
+        foreach (var survey in Model)
+        {
+            <div class="row">
+                <div class="col-lg-3">@survey.PhoneNumber</div>
+                <div class="col-lg-1">@survey.IsEnabled</div>
+                <div class="col-lg-3">@survey.UpdatedAt</div>
+                <div class="col-lg-1">@survey.Responses.Count</div>
+                <div class="col-lg-2">@(survey.CalcuatedNPS * 100)</div>
+                <div class="col-lg-1">@Html.ActionLink("Edit", "Survey", new { surveyid = survey.SurveyId })</div>
+                <div class="col-lg-1">@Html.ActionLink("Delete", "DeleteSurvey", new { surveyid = survey.SurveyId })</div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-lg-12">No Surveys found.</div>
+        </div>
+    }
+
+
+
+

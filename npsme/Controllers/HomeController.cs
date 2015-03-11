@@ -51,7 +51,8 @@ namespace npsme.Controllers
                 if (survey == null)
                 {
                     var client = new TwilioRestClient(ConfigurationManager.AppSettings["AccountSid"], ConfigurationManager.AppSettings["AuthToken"]);
-                    var result = client.AddIncomingLocalPhoneNumber(new PhoneNumberOptions() { PhoneNumber = vm.PhoneNumber, SmsUrl = "/Phone/Store", VoiceUrl = "" });
+                    
+                    var result = client.AddIncomingLocalPhoneNumber(new PhoneNumberOptions() { PhoneNumber = vm.PhoneNumber, SmsUrl = Url.Action("Store", "Phone", null, "http"), VoiceUrl = "" });
 
                     if (result.RestException != null)
                     {

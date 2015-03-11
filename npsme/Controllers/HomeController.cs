@@ -55,7 +55,7 @@ namespace npsme.Controllers
 
                     if (result.RestException != null)
                     {
-                        //fail the save
+                        throw new Exception(string.Format("Unable to add phone number: \"{0}\"", result.RestException.Message));
                     }
 
                     survey = new Survey();

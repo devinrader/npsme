@@ -105,7 +105,6 @@ namespace npsme.Controllers
             {
                 response.Body = body;
                 await context.SaveChangesAsync();
-                return new EmptyResult();
             }
 
             return new System.Web.Mvc.HttpStatusCodeResult(500);

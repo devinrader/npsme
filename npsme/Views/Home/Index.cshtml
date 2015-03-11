@@ -28,7 +28,7 @@
                 <div class="col-lg-1">@survey.IsEnabled</div>
                 <div class="col-lg-3">@survey.UpdatedAt</div>
                 <div class="col-lg-1">@survey.Responses.Count</div>
-                <div class="col-lg-2">@(survey.CalcuatedNPS * 100)</div>
+                <div class="col-lg-2">@(survey.CalculatedNPS * 100)</div>
                 <div class="col-lg-1">@Html.ActionLink("Edit", "Survey", new { surveyid = survey.SurveyId })</div>
                 <div class="col-lg-1">@Html.ActionLink("Delete", "DeleteSurvey", new { surveyid = survey.SurveyId })</div>
             </div>

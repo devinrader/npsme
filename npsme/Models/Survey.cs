@@ -21,7 +21,7 @@ namespace npsme.Models
         public string PhoneNumber { get; set; }
         public string ResponseText { get; set; }
         public List<SurveyResponse> Responses { get; set; }
-        public double CalcuatedNPS { get; set; }
+        public double CalculatedNPS { get; set; }
         public bool IsEnabled { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

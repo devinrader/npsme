@@ -126,23 +126,16 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201503010247152_Initial.cs" />
-    <Compile Include="Migrations\201503010247152_Initial.Designer.cs">
-      <DependentUpon>201503010247152_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201503010319327_Survey NPS Field.cs" />
-    <Compile Include="Migrations\201503010319327_Survey NPS Field.Designer.cs">
-      <DependentUpon>201503010319327_Survey NPS Field.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201503040722150_Enhanced Survey Response.cs" />
-    <Compile Include="Migrations\201503040722150_Enhanced Survey Response.Designer.cs">
-      <DependentUpon>201503040722150_Enhanced Survey Response.cs</DependentUpon>
+    <Compile Include="Migrations\201503111348102_Initial.cs" />
+    <Compile Include="Migrations\201503111348102_Initial.Designer.cs">
+      <DependentUpon>201503111348102_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\SurveyResponse.cs" />
     <Compile Include="Models\Survey.cs" />
     <Compile Include="Models\SurveyContext.cs" />
     <Compile Include="Models\SurveyViewModel.cs" />
+    <Compile Include="Nps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -168,14 +161,8 @@
     <Folder Include="Views\Phone\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201503010247152_Initial.resx">
-      <DependentUpon>201503010247152_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201503010319327_Survey NPS Field.resx">
-      <DependentUpon>201503010319327_Survey NPS Field.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201503040722150_Enhanced Survey Response.resx">
-      <DependentUpon>201503040722150_Enhanced Survey Response.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201503111348102_Initial.resx">
+      <DependentUpon>201503111348102_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

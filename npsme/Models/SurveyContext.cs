@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EntityFramework.Triggers;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 
 namespace npsme.Models
 {
@@ -20,14 +22,10 @@ namespace npsme.Models
             return this.SaveChangesWithTriggers(base.SaveChanges);
         }
 
-        //public override Task<int> SaveChangesAsync()
-        //{
-        //    return this.SaveChangesWithTriggersAsync(base.SaveChangesAsync);
-        //}
-
         public override Task<int> SaveChangesAsync(System.Threading.CancellationToken cancellationToken)
         {
             return this.SaveChangesWithTriggersAsync(base.SaveChangesAsync, cancellationToken);
         }
+
     }
 }

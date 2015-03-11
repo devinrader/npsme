@@ -33,7 +33,7 @@ namespace npsme.Controllers
                 }
 
                 //parse the NPS value and comment from the body
-                int value; string comment;
+                int value;
 
                 if (!int.TryParse(body, out value))
                 {
@@ -59,29 +59,11 @@ namespace npsme.Controllers
                 survey.Responses.Add(surveyresponse);
                 await context.SaveChangesAsync();
 
-                survey.CalcuatedNPS = CalculateNps(survey);
-                await context.SaveChangesAsync();
-                    
                 response.Message(survey.ResponseText);
                 return TwiML(response);
             }
 
             return new HttpStatusCodeResult(500);
-        }
-
-        private double CalculateNps(Survey survey)
-        {
-            var ints = survey.Responses.Select(r => r.Score);
-
-            double promotorcount = ints.Where(i => i >= 9).Count();
-            double detractorcount = ints.Where(i => i <= 6).Count();
-
-            double promoters = promotorcount / ints.Count();
-            double detractors = detractorcount / ints.Count();
-
-            var nps = promoters - detractors;
-
-            return nps;
-        }
+        }       
     }
 }

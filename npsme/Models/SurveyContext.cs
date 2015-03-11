@@ -10,6 +10,8 @@ namespace npsme.Models
 {
     public class SurveyContext : DbContext
     {
+        public SurveyContext() : base("DefaultConnection") {}
+
         public DbSet<Survey> Surveys { get; set; }
         public DbSet<SurveyResponse> Responses { get; set; }
 

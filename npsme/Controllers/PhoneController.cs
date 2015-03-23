@@ -70,6 +70,7 @@ namespace npsme.Controllers
                 {
                     //log
                     string msg = exc.Message;
+                    return new HttpStatusCodeResult(500, exc.Message);
                 }
 
                 response.Message(survey.ResponseText);

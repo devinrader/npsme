@@ -9,7 +9,7 @@ namespace npsme.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
         }
 
         protected override void Seed(npsme.Models.SurveyContext context)

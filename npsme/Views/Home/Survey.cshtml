@@ -41,26 +41,36 @@
     
     <div class="row">
         <div class="col-lg-8">Body</div>
+        <div class="col-lg-8">Score</div>
         <div class="col-lg-2">Created At</div>
         <div class="col-lg-2"></div>
     </div>
-    
-    foreach (var response in Model.Responses) { 
+
+    foreach (var response in Model.Responses)
+    {
         <div class="row">
-            <div class="col-lg-8">
-                <span class="response display" data-responseid="@response.ResponseId">@response.Body</span>
-                <form>
+            <form>
+                <div class="col-lg-6" id="body">
+                    <span class="response display body">@response.Body</span>
                     <div class="form-inline">
-                        <input class="form-control response edit" data-responseid="@response.ResponseId" style="display:none" value="@response.Body" />
-                        <input type="button" class="btn btn-default response edit" data-responseid="@response.ResponseId" style="display:none" value="Save" />
+                        <input class="form-control response edit body" style="display:none" value="@response.Body" />
                     </div>
-                </form>
-            </div>
-            <div class="col-lg-2">@response.CreatedAt</div>
-            <div class="col-lg-2">
-                <a class="response display" data-responseid="@response.ResponseId" style="cursor:pointer">Edit</a>
-                <a class="response edit" data-responseid="@response.ResponseId" style="display:none;cursor:pointer">Cancel</a>
-            </div>
+                </div>
+                <div class="col-lg-2" id="score">
+                    <span class="response display score">@response.Score</span>
+                    <div class="form-inline">
+                        <input class="form-control response edit score" style="display:none" value="@response.Score" />
+                    </div>
+                </div>
+                <div class="col-lg-2">@response.CreatedAt</div>
+                <div class="col-lg-2">
+                    @*<a class="response display" style="cursor:pointer">Edit</a>*@
+                    <input type="button" class="btn btn-default response display" data-responseid="@response.ResponseId" value="Edit" />
+                    <input type="button" class="btn btn-default response edit save" data-responseid="@response.ResponseId" style="display:none" value="Save" />
+                    <input type="button" class="btn btn-default response edit cancel" style="display:none" value="Cancel" />
+                    @*<a class="response edit" data-responseid="@response.ResponseId" style="display:none;cursor:pointer">Cancel</a>*@
+                </div>
+            </form>
         </div>
     }
 }
@@ -80,26 +90,35 @@ else
                 return false;
             });
 
-            $("a.response.display").click(function () {
-                var responseid = $(this).data('responseid');
+            $("input[type='button'].display").click(function () {
+                var responseid = $(this).data("responseid");
+                var row = $(this).closest(".row");
 
                 $(".response.edit").hide();
                 $(".response.display").show();
 
-                $(".response.edit[data-responseid=" + responseid + "]").toggle();
-                $(".response.display[data-responseid=" + responseid + "]").toggle();
+                row.find(".response.edit").toggle();
+                row.find(".response.display").toggle();
             });
 
-            $("a.response.edit").click(function () {
+            $("input[type='button'].edit.cancel").click(function () {
                 $(".response.edit").hide();
                 $(".response.display").show();
             });
 
-            $("input[type=button].response.edit").click(function () {
-                var responseid = $(this).data('responseid');
-                var responsebody = $('input.response.edit[data-responseid=' + responseid + ']').val();
-                $.post("/Home/SurveyResponse", { 'responseid': responseid, 'body': responsebody }, function (data) {
-                    $('span.response.display[data-responseid=' + responseid + ']').text(responsebody);
+            $("input[type='button'].edit.save").click(function () {
+                var responseid = $(this).data("responseid");
+                var row = $(this).closest(".row");
+
+                var body = row.find(".edit.body").val();
+                var score = row.find(".edit.score").val();
+
+                $.post("/Home/SurveyResponse", { 'responseid': responseid, 'body': body, 'score': score }, function (data) {
+                    //$('span.response.display[data-responseid=' + responseid + ']').text();
+
+                    row.find("span.body").text(body);
+                    row.find("span.score").text(score);
+
                     $(".response.edit").hide();
                     $(".response.display").show();
                 });

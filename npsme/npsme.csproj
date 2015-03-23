@@ -130,12 +130,23 @@
     <Compile Include="Migrations\201503111348102_Initial.Designer.cs">
       <DependentUpon>201503111348102_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201503231209179_FixNpsCal.cs" />
+    <Compile Include="Migrations\201503231209179_FixNpsCal.Designer.cs">
+      <DependentUpon>201503231209179_FixNpsCal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503231230360_AddedReverseParentChild.cs" />
+    <Compile Include="Migrations\201503231230360_AddedReverseParentChild.Designer.cs">
+      <DependentUpon>201503231230360_AddedReverseParentChild.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503231525346_FixingDecmialTypes.cs" />
+    <Compile Include="Migrations\201503231525346_FixingDecmialTypes.Designer.cs">
+      <DependentUpon>201503231525346_FixingDecmialTypes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\SurveyResponse.cs" />
     <Compile Include="Models\Survey.cs" />
     <Compile Include="Models\SurveyContext.cs" />
     <Compile Include="Models\SurveyViewModel.cs" />
-    <Compile Include="Nps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +174,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201503111348102_Initial.resx">
       <DependentUpon>201503111348102_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503231209179_FixNpsCal.resx">
+      <DependentUpon>201503231209179_FixNpsCal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503231230360_AddedReverseParentChild.resx">
+      <DependentUpon>201503231230360_AddedReverseParentChild.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503231525346_FixingDecmialTypes.resx">
+      <DependentUpon>201503231525346_FixingDecmialTypes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -27,5 +27,7 @@ namespace npsme.Models
         public string MessageSid { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+
+        public virtual Survey Survey { get; set; }
     }
 }

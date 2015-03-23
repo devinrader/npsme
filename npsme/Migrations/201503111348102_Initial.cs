@@ -39,7 +39,7 @@ namespace npsme.Migrations
                         UpdatedAt = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.SurveyId);
-
+            
             CreateStoredProcedure("[dbo].[CalculateNps]",
                 p => new
                 {
@@ -51,8 +51,6 @@ namespace npsme.Migrations
                     "COUNT(CASE WHEN [dbo].[SurveyResponses].Score >= 9 THEN 1 ELSE null END) AS Detractors \r\n" +
                 "FROM [dbo].[SurveyResponses] WHERE [dbo].[SurveyResponses].Survey_SurveyId = @SurveyId;\r\n" +
                 "UPDATE [dbo].[Surveys] SET CalculatedNPS = (( @Promotors / @Responders )-( @Detractors / @Responders )) WHERE [dbo].[Surveys].SurveyId = @SurveyId");
-
-            Sql("CREATE TRIGGER [dbo].[onInsertCalculateNps] ON [dbo].[SurveyResponses] AFTER INSERT, UPDATE AS EXEC [dbo].[CalculateNps]");
         }
         
         public override void Down()
@@ -61,6 +59,7 @@ namespace npsme.Migrations
             DropIndex("dbo.SurveyResponses", new[] { "Survey_SurveyId" });
             DropTable("dbo.Surveys");
             DropTable("dbo.SurveyResponses");
+            DropStoredProcedure("dbo.CalculateNps");
         }
     }
 }

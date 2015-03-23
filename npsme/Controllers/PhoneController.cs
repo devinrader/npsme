@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using EntityFramework.Triggers;
 using Twilio.TwiML.Mvc;
 using Twilio.TwiML;
+using System.Data.SqlClient;
 
 namespace npsme.Controllers
 {
@@ -57,7 +58,19 @@ namespace npsme.Controllers
                     };
 
                 survey.Responses.Add(surveyresponse);
-                await context.SaveChangesAsync();
+
+                try
+                {
+                    await context.SaveChangesAsync();
+
+                    var surveyIdParam = new SqlParameter("@SurveyId", survey.SurveyId);
+                    await context.Database.ExecuteSqlCommandAsync("[dbo].[CalculateNps] @SurveyId", surveyIdParam);
+                }   
+                catch (Exception exc)
+                {
+                    //log
+                    string msg = exc.Message;
+                }
 
                 response.Message(survey.ResponseText);
                 return TwiML(response);

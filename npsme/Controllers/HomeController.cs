@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -52,7 +53,11 @@ namespace npsme.Controllers
                 {
                     var client = new TwilioRestClient(ConfigurationManager.AppSettings["AccountSid"], ConfigurationManager.AppSettings["AuthToken"]);
                     
+#if DEBUG
+                    var result = client.AddIncomingLocalPhoneNumber(new PhoneNumberOptions() { PhoneNumber = vm.PhoneNumber, SmsUrl ="http://example.com/Phone/Store", VoiceUrl = "" });
+#else
                     var result = client.AddIncomingLocalPhoneNumber(new PhoneNumberOptions() { PhoneNumber = vm.PhoneNumber, SmsUrl = Url.Action("Store", "Phone", null, "http"), VoiceUrl = "" });
+#endif
 
                     if (result.RestException != null)
                     {
@@ -98,13 +103,19 @@ namespace npsme.Controllers
             return Content(result.AvailablePhoneNumbers.First().PhoneNumber);
         }
 
-        public async Task<ActionResult> SurveyResponse(int responseid, string body)
+        public async Task<ActionResult> SurveyResponse(int responseid, string body, int score)
         {
            var response = context.Responses.Where(r => r.ResponseId == responseid).FirstOrDefault();
             if (response != null)
-            {
+            {                                
                 response.Body = body;
+                response.Score = score;
                 await context.SaveChangesAsync();
+
+                var surveyIdParam = new SqlParameter("@SurveyId", response.Survey.SurveyId);
+                await context.Database.ExecuteSqlCommandAsync("[dbo].[CalculateNps] @SurveyId", surveyIdParam);
+
+                return new System.Web.Mvc.HttpStatusCodeResult(200);
             }
 
             return new System.Web.Mvc.HttpStatusCodeResult(500);
